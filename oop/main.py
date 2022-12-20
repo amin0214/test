@@ -9,9 +9,5 @@ snake = Snake(region)
 #     pt = region.get_rnd_point()
 #     print(pt.x, pt.y)
 
-snake.go(dir="R")
+snake.go("右")
 if snake.is_die(): pass
-
-
-pass
-pass

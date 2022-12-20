@@ -66,6 +66,7 @@ class Snake:
         self.body = [self.head]
         self.food = self.new_food()
         self.score = 0
+        self.dir_ = None
 
     def new_food(self) -> Point:
         """
@@ -97,11 +98,15 @@ class Snake:
         """
         往目前方向(dir=左、右、上、下)走一步
         """
-        if dir_ == '左':
-            self.head.x +=1
-        elif dir_ == '左':
-            self.head.x -=1
-        elif dir_ == '上':
-            self.head.y -=1
-        else: # dir_ == '下'
-            self.head.y +=1
+        # 不能回轉
+        if ((self.dir_ in "左右" and dir_ in "左右") or 
+            (self.dir_ in "上下" and dir_ in "上下")):
+            return
+
+        else:   #可以轉彎
+            self.dir_ = dir_
+
+        if   dir_ == '左': self.head.x +=1
+        elif dir_ == '左': self.head.x -=1
+        elif dir_ == '上': self.head.y -=1
+        else:              self.head.y +=1  # dir_ == '下'
