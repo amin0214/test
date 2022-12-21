@@ -108,11 +108,10 @@ class Snake:
         if ((self.dir_ in "左右" and dir_ in "左右") or 
             (self.dir_ in "上下" and dir_ in "上下")):
             return
-
         else:   #可以轉彎
             self.dir_ = dir_
 
-        if   dir_ == '左': self.head.x +=1
+        if   dir_ == '右': self.head.x +=1
         elif dir_ == '左': self.head.x -=1
         elif dir_ == '上': self.head.y -=1
         else:              self.head.y +=1  # dir_ == '下'
