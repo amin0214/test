@@ -1,4 +1,6 @@
-import pygame, sys, time, random
+from random import randrange
+import pygame, sys
+import pygame.display as display
 import pygame.event as event
 
 # 定義頻色變數
@@ -13,7 +15,7 @@ def theEnd():
     pygame.quit()
     sys.exit()
 
-def gameOver(playSurface, score):
+def gameOver(dispSurface, score):
     '''死了，顯示分數，遊戲結束'''
     txtFont = pygame.font.SysFont('arial.ttf', 54)  # 建立字型物件供顯示文字訊息時用
     
@@ -22,17 +24,17 @@ def gameOver(playSurface, score):
     txtSurf = txtFont.render('Game Over!', True, greyColour)
     # 2.取得圖形的距形物件，用來設定要顯示的位置及範圍
     txtRect = txtSurf.get_rect()    
-    txtRect.midbottom = (playSurface.get_rect().centerx, txtFont.get_height())
+    txtRect.midbottom = (dispSurface.get_rect().centerx, txtFont.get_height())
     # 3.將文字圖形顯示於矩形的位置範圍
-    playSurface.blit(txtSurf, txtRect)  
+    dispSurface.blit(txtSurf, txtRect)  
 
     # 同上，顯示分數
     txtSurf = txtFont.render('Score:' + str(score), True, greyColour)
     txtRect = txtSurf.get_rect()
-    txtRect.midtop = (playSurface.get_rect().centerx, txtFont.get_height())
-    playSurface.blit(txtSurf, txtRect)
+    txtRect.midtop = (dispSurface.get_rect().centerx, txtFont.get_height())
+    dispSurface.blit(txtSurf, txtRect)
     
-    pygame.display.update()     # 更新畫面
+    display.update()     # 更新畫面
     
     time.sleep(2)   # 程式暫停2秒
     theEnd()        # 結束程式
@@ -47,8 +49,8 @@ def main():
     fpsClock = pygame.time.Clock()
     
     # 創建遊戲顯示畫布(pygame顯示層)
-    playSurface = pygame.display.set_mode((600, 460))
-    pygame.display.set_caption('Snake Game')    # 設定視窗抬頭
+    dispSurface = display.set_mode((600, 460))
+    display.set_caption('Snake Game')    # 設定視窗抬頭
     
     # 初始化變數
     snakePosition = (100, 100)          # 貪吃蛇 蛇頭的位置
@@ -59,7 +61,7 @@ def main():
     
     while True:
         fpsClock.tick(7)    # 控制遊戲速度
-        
+
         # 逐一檢測pygame的事件佇列(Queue)，看看發生了哪些事件
         for e in event.get():
             
@@ -103,37 +105,37 @@ def main():
         # 如果吃掉樹莓，則重新生成樹莓
         else:   
             raspberryPosition = (               
-                random.randrange(0, 600, 20),   # 隨機產生[0,600)之間間隔20的亂數
-                random.randrange(0, 460, 20)    # (0,20,40, ... 580)
+                randrange(0, 600, 20),   # 隨機產生[0,600)之間間隔20的亂數
+                randrange(0, 460, 20)    # (0,20,40, ... 580)
             )                                   # 註：randrange半開區間[)，randint閉區間[]
             score += 1
         
         # 清空、重繪pygame顯示層
-        playSurface.fill(blackColour)   # 塗黑全部背景
+        dispSurface.fill(blackColour)   # 塗黑全部背景
         
         # 繪出蛇身體
         for (x, y) in snakeSegments[1:]:
-            pygame.draw.rect(playSurface, whiteColour, pygame.Rect(x, y, 20, 20))
+            pygame.draw.rect(dispSurface, whiteColour, pygame.Rect(x, y, 20, 20))
 
         # 繪出蛇頭(先畫身體再畫頭方能使頭吃到身體時畫面能表現出來)
         (x, y) = snakeSegments[0]
-        pygame.draw.rect(playSurface, greenColour, pygame.Rect(x, y, 20, 20))
+        pygame.draw.rect(dispSurface, greenColour, pygame.Rect(x, y, 20, 20))
         
         # 繪出樹莓
         (x, y) = raspberryPosition
-        pygame.draw.rect(playSurface, redColour, pygame.Rect(x, y, 20, 20))
+        pygame.draw.rect(dispSurface, redColour, pygame.Rect(x, y, 20, 20))
         
         # 刷新pygame顯示層
-        pygame.display.update()
+        display.update()
         
         # 判斷是否死亡
         (x, y) = snakePosition
         if not (0 <= x < 600 and 0 <= y < 460):  # 如果蛇頭在X、Y軸方向沒有在視窗範圍內
-            gameOver(playSurface, score)
+            gameOver(dispSurface, score)
 
         # 是否吃到自己身體
         elif snakePosition in snakeSegments[1:]:
-            gameOver(playSurface, score)
+            gameOver(dispSurface, score)
 
 
 if __name__ == "__main__":

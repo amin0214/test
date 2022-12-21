@@ -96,7 +96,7 @@ def game_loop():
     score = 0
 
     pygame.mixer.music.load("chsc/assets/main_theme.ogg") #背景音樂
-    pygame.mixer.music.play(-1) 
+    pygame.mixer.music.play(-1)
     death = pygame.mixer.Sound("chsc/assets/death.wav") #遊戲結束音效
     got = pygame.mixer.Sound("chsc/assets/coin.ogg") #吃到食物音效
     #功能：隨機產生目標（食物）位置

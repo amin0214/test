@@ -1,3 +1,8 @@
+import time
+import pygame
+import pygame.display as display
+import pygame.event as event
+
 from typing import List, Tuple
 from random import randint
 
@@ -123,16 +128,36 @@ class SGame:
         WxH : tuple (寬,高)
         scale : 比例
         """
-        self.scale = scale
         (self.w, self.h) = ( _ * scale for _ in WxH )
+        self.scale = scale
 
-        self.game_surface
+        self.surface = None
+        self.picture = None
+        self.music = None
 
         self.snake_region = Region(WxH)
         self.snake = self.new_snake()
 
     def __pygame_init(self):
-        pass
+        pygame.init()
+
+        display.set_caption("Pygame貪食蛇")
+        self.surface = display.set_mode((self.w, self.h))
+        
+        self.picture = {
+            'background': pygame.image.load("/assets/background.png").convert(),
+            'head': pygame.image.load("assets/face.png").convert_alpha(),
+            'game_over': pygame.image.load("assets/game_over.png").convert_alpha()
+        }
+
+        pygame.mixer.init()
+        self.music = {
+            'bgm': pygame.mixer.Sound('/assets/bgm.wav'),      
+            'food': pygame.mixer.Sound('/assets/food.wav'),
+            'game_over': pygame.mixer.Sound('/assets/game_over.wav'),
+        }
+        
+        
         
 
     def new_snake(self) -> Snake:

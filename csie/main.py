@@ -60,18 +60,19 @@ canvas_x = 720
 canvas_y = 630
 canvas = pygame.Surface((canvas_x, canvas_y))
 
-background = pygame.image.load("res/background.png").convert()
-border = pygame.image.load("res/border.png").convert()
-face = pygame.image.load("res/face.png").convert_alpha()
-game_over = pygame.image.load("res/game_over.png").convert_alpha()
+background = pygame.image.load("csie/res/background.png").convert()
+border = pygame.image.load("csie/res/border.png").convert()
+face = pygame.image.load("csie/res/face.png").convert_alpha()
+game_over = pygame.image.load("csie/res/game_over.png").convert_alpha()
 
 pygame.mixer.init()
-bgm = pygame.mixer.Sound("res/bgm.wav")
-fruit_sfx = pygame.mixer.Sound("res/fruit.wav")
-game_over_sfx = pygame.mixer.Sound("res/game_over.wav")
+bgm = pygame.mixer.Sound("csie/res/bgm.wav")
+fruit_sfx = pygame.mixer.Sound("csie/res/fruit.wav")
+game_over_sfx = pygame.mixer.Sound("csie/res/game_over.wav")
 bgm.play(-1)
 
-game_speed = 8
+fpsClock = pygame.time.Clock()
+game_speed = 7
 unit = 30
 
 while True:
@@ -82,9 +83,7 @@ while True:
 
     while True:
 
-        start_time = pygame.time.get_ticks()
-        while pygame.time.get_ticks() - start_time < 1000 // game_speed:
-            pygame.event.pump()
+        fpsClock.tick(game_speed)   # 控制遊戲速度
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
