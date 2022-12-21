@@ -1,9 +1,4 @@
 import pygame
-from snake import Point, Region, Snake
+from snakegame import SGame
 
-region = Region(Point(0,0), Point(100,100))
-snake = Snake(region)
-# snake.head = region.get_rnd_point()
-
-snake.go("右")
-if snake.is_die(): pass
+game = SGame(WxH=(40,30), scale=20)
